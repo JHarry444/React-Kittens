@@ -1,7 +1,7 @@
 import {
   Button, Form, FormGroup, FormLabel,
 } from 'react-bootstrap';
-import propTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import { useState } from 'react';
 import axios from 'axios';
 import { context } from '../constants.json';
@@ -95,5 +95,5 @@ const KittenForm = ({ fetchKittens }) => {
 export default KittenForm;
 
 KittenForm.propTypes = {
-  fetchKittens: propTypes.func.isRequired,
+  fetchKittens: PropTypes.func.isRequired,
 };

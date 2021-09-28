@@ -10,14 +10,17 @@ import {
 import KittenContainer from './components/KittenContainer';
 import KittenForm from './components/KittenForm';
 import { context } from './constants.json';
+import UpdateModal from './components/UpdateModal';
 
 function App() {
   const [kittens, setKittens] = useState([]);
+  const [currentKitten, setCurrentKitten] = useState();
 
   const fetchKittens = async () => {
     try {
       const { data } = await axios.get(`${context}/getAll`);
-      setKittens(data);
+      const fetchedKittens = data.map(({ createAt, updatedAt, ...rest }) => ({ ...rest }));
+      setKittens(fetchedKittens);
       console.log('KITTENS FETCHED');
     } catch (err) {
       console.error(err);
@@ -44,10 +47,23 @@ function App() {
             <KittenForm fetchKittens={fetchKittens} />
           </Col>
           <Col className="col-8">
-            <KittenContainer kittens={kittens} deleteKitten={deleteKitten} />
+            <KittenContainer
+              kittens={kittens}
+              deleteKitten={deleteKitten}
+              setCurrentKitten={setCurrentKitten}
+            />
           </Col>
         </Row>
       </Container>
+      {
+        currentKitten && (
+        <UpdateModal
+          currentKitten={currentKitten}
+          fetchKittens={fetchKittens}
+          setCurrentKitten={setCurrentKitten}
+        />
+        )
+      }
     </div>
   );
 }
